@@ -62,31 +62,11 @@ const EventSchema = new Schema(
       required: [true, 'Audience is required'],
       trim: true,
     },
-    agenda: {
-      type: [String],
-      required: [true, 'Agenda is required'],
-      validate: {
-        validator: function(v) {
-          return v.length > 0;
-        },
-        message: 'At least one agenda item is required',
-      },
-    },
     organizer: {
       type: String,
       required: [true, 'Organizer is required'],
       trim: true,
-    },
-    tags: {
-      type: [String],
-      required: [true, 'Tags are required'],
-      validate: {
-        validator: function(v) {
-          return v.length > 0;
-        },
-        message: 'At least one tag is required',
-      },
-    },
+    }
   },
   {
     timestamps: true,
@@ -94,7 +74,7 @@ const EventSchema = new Schema(
 );
 
 // Pre-save hook for slug generation and data normalization
-EventSchema.pre('save', function (next) {
+EventSchema.pre('save', function () {
   // Generate slug if title changed or document is new
   if (this.isModified('title') || this.isNew) {
     this.slug = generateSlug(this.title);
@@ -110,7 +90,7 @@ EventSchema.pre('save', function (next) {
     this.time = normalizeTime(this.time);
   }
 
-  next();
+  // next();
 });
 
 // Helper function to generate slug

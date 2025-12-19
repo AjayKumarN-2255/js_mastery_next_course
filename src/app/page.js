@@ -1,9 +1,12 @@
 import React from 'react';
 import ExploreBtn from '@/components/ExploreBtn';
 import EventCard from '@/components/EventCard';
-import events from '@/lib/constants';
 
-function Home() {
+async function Home() {
+  const BASE_URL = ' http://localhost:3000';
+  const response = await fetch(`${BASE_URL}/api/events`);
+  const { events } = await response.json();
+
   return (
     <section>
       <h1 className="text-center">The Hub for Every Dev <br /> Event You Can&apos;t Miss</h1>
