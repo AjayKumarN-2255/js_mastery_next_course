@@ -8,6 +8,9 @@ const BookingSchema = new Schema(
       ref: 'Event',
       required: [true, 'Event ID is required'],
     },
+    slug: {
+      type: String,
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -28,32 +31,6 @@ const BookingSchema = new Schema(
   }
 );
 
-// Pre-save hook to validate event exists before creating booking
-BookingSchema.pre('save', async function (next) {
-  // Only validate eventId if it's new or modified
-  if (this.isModified('eventId') || this.isNew) {
-    try {
-      const eventExists = await Event.findById(this.eventId).select('_id');
-      if (!eventExists) {
-        const error = new Error(`Event with ID ${this.eventId} does not exist`);
-        error.name = 'ValidationError';
-        return next(error);
-      }
-    } catch {
-      const validationError = new Error('Invalid event ID format or database error');
-      validationError.name = 'ValidationError';
-      return next(validationError);
-    }
-  }
-
-  next();
-});
-
-// Indexes for faster queries
-BookingSchema.index({ eventId: 1 });
-BookingSchema.index({ eventId: 1, createdAt: -1 });
-BookingSchema.index({ email: 1 });
-BookingSchema.index({ eventId: 1, email: 1 }, { unique: true, name: 'uniq_event_email' });
 
 // Create model
 const Booking = models.Booking || model('Booking', BookingSchema);

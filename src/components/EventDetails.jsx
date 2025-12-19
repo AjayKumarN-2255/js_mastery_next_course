@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 // import { getSimilarEventsBySlug } from '@/lib/actions/event.actions';
 import Image from 'next/image';
-// import BookEvent from '@/components/BookEvent';
+import BookEvent from '@/components/BookEvent';
 import EventCard from '@/components/EventCard';
 
 const BASE_URL = ' http://localhost:3000';
@@ -86,7 +86,7 @@ const EventDetails = async ({ slug }) => {
                         ) : (
                             <p className="text-sm">Be the first to book your spot!</p>
                         )}
-                        {/* <BookEvent eventId={event._id} slug={event.slug} /> */}
+                        <BookEvent eventId={event._id} slug={event.slug} />
                     </div>
                 </aside>
             </div>
