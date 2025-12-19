@@ -1,8 +1,11 @@
 import React from 'react';
 import ExploreBtn from '@/components/ExploreBtn';
 import EventCard from '@/components/EventCard';
+import { cacheLife } from 'next/cache';
 
 async function Home() {
+  "use cache";
+  cacheLife("hours")
   const BASE_URL = ' http://localhost:3000';
   const response = await fetch(`${BASE_URL}/api/events`);
   const { events } = await response.json();
